@@ -1,0 +1,391 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="False" Title="OptimiZation · Versión 2" Height="850" Width="1360" MinHeight="780" MinWidth="1360" WindowStartupLocation="CenterScreen" Background="#0B0E14" Foreground="#E8EAED" FontFamily="Segoe UI" FontSize="13" UseLayoutRounding="True" SnapsToDevicePixels="True">
+<shell:WindowChrome.WindowChrome>
+  <!-- CaptionHeight conserva arrastre, doble clic, menú del sistema y ajuste nativos. -->
+  <shell:WindowChrome CaptionHeight="40" ResizeBorderThickness="6" GlassFrameThickness="0" CornerRadius="8" NonClientFrameEdges="None" UseAeroCaptionButtons="False"/>
+</shell:WindowChrome.WindowChrome>
+<Window.Template><ControlTemplate TargetType="Window"><Border x:Name="MarcoVentana" Background="{TemplateBinding Background}" BorderThickness="0"><AdornerDecorator><ContentPresenter/></AdornerDecorator></Border><ControlTemplate.Triggers><Trigger Property="WindowState" Value="Maximized"><Setter TargetName="MarcoVentana" Property="Padding" Value="{x:Static SystemParameters.WindowResizeBorderThickness}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Window.Template>
+<Window.Resources>
+    <!-- También oscurece esquinas que conservan la plantilla temática de una tabla. -->
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#0B0E14"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#0B0E14"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#E8EAED"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="#E8EAED"/>
+
+    <Style TargetType="TextBlock"><Setter Property="Foreground" Value="#E8EAED"/><Setter Property="TextWrapping" Value="Wrap"/></Style>
+
+    <Style TargetType="Button">
+      <Setter Property="Foreground" Value="#E8EAED"/>
+      <Setter Property="Background" Value="#2A2F3A"/>
+      <Setter Property="Padding" Value="14,7"/>
+      <Setter Property="Margin" Value="4"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="ContentTemplate"><Setter.Value><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/></DataTemplate></Setter.Value></Setter>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Fondo" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Fondo" Property="Opacity" Value="0.85"/></Trigger>
+              <Trigger Property="IsPressed" Value="True"><Setter TargetName="Fondo" Property="Opacity" Value="0.7"/></Trigger>
+              <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Fondo" Property="Opacity" Value="0.4"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="BotonAcento" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"><Setter Property="Foreground" Value="#12161E"/>
+      <Setter Property="Background">
+        <Setter.Value><LinearGradientBrush StartPoint="0,0" EndPoint="1,0"><GradientStop Color="#FF8C00" Offset="0"/><GradientStop Color="#FF8C00" Offset="1"/></LinearGradientBrush></Setter.Value>
+      </Setter>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style x:Key="BotonPeligro" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="Background" Value="#C62828"/>
+    </Style>
+
+    <!-- Texto sin efecto ni fondo por glifo. ClearType sobre una tarjeta opaca, no sobre el velo. -->
+    <Style x:Key="TextoEmergente" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+      <Setter Property="FontSize" Value="15"/><Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Foreground" Value="#F0F3F8"/><Setter Property="Background" Value="{x:Null}"/><Setter Property="Effect" Value="{x:Null}"/>
+      <Setter Property="TextOptions.TextFormattingMode" Value="Display"/><Setter Property="TextOptions.TextHintingMode" Value="Fixed"/><Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+      <Setter Property="LineHeight" Value="23"/><Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+    </Style>
+    <Style x:Key="TituloEmergente" TargetType="TextBlock" BasedOn="{StaticResource TextoEmergente}">
+      <Setter Property="FontSize" Value="20"/><Setter Property="FontWeight" Value="Bold"/><Setter Property="Foreground" Value="#F5F7FA"/><Setter Property="LineHeight" Value="28"/>
+    </Style>
+    <Style x:Key="BotonEmergente" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="FontSize" Value="14"/><Setter Property="FontWeight" Value="SemiBold"/><Setter Property="Foreground" Value="#F5F7FA"/>
+      <Setter Property="Background" Value="#344157"/><Setter Property="Padding" Value="18,10"/>
+      <Setter Property="ContentTemplate"><Setter.Value><DataTemplate><TextBlock Text="{Binding}" Style="{StaticResource TextoEmergente}" FontSize="14" FontWeight="SemiBold" TextAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/></DataTemplate></Setter.Value></Setter>
+      <Setter Property="TextOptions.TextFormattingMode" Value="Display"/><Setter Property="TextOptions.TextHintingMode" Value="Fixed"/><Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+    </Style>
+    <Style x:Key="BotonEmergenteAcento" TargetType="Button" BasedOn="{StaticResource BotonEmergente}"><Setter Property="Background" Value="#9A4900"/></Style>
+
+    <!-- Botones de ventana propios: sin marco/caption claro del sistema. -->
+    <Style x:Key="BotonVentana" TargetType="Button">
+      <Setter Property="Width" Value="46"/><Setter Property="Height" Value="40"/><Setter Property="Padding" Value="0"/><Setter Property="Margin" Value="0"/>
+      <Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="#B7C1CF"/><Setter Property="FontFamily" Value="Segoe MDL2 Assets"/><Setter Property="FontSize" Value="10"/>
+      <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border x:Name="FondoVentana" Background="{TemplateBinding Background}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="FondoVentana" Property="Background" Value="#202734"/><Setter Property="Foreground" Value="#FFFFFF"/></Trigger><Trigger Property="IsPressed" Value="True"><Setter TargetName="FondoVentana" Property="Background" Value="#303B4C"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="FondoVentana" Property="Background" Value="#202734"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+    </Style>
+    <Style x:Key="BotonCerrarVentana" TargetType="Button" BasedOn="{StaticResource BotonVentana}"><Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#C42B1C"/><Setter Property="Foreground" Value="White"/></Trigger></Style.Triggers><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border x:Name="FondoCerrar" Background="{TemplateBinding Background}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsPressed" Value="True"><Setter TargetName="FondoCerrar" Property="Background" Value="#A62016"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="FondoCerrar" Property="Background" Value="#C42B1C"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+
+    <!-- Interruptor (toggle) -->
+    <Style x:Key="Interruptor" TargetType="CheckBox">
+      <Setter Property="Foreground" Value="#E8EAED"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="CheckBox">
+            <Grid Background="Transparent"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+              <Grid Width="36" Height="20" VerticalAlignment="Center">
+                <Border x:Name="Pista" CornerRadius="10" Background="#303744"/>
+                <Ellipse x:Name="Bola" Width="14" Height="14" Fill="White" HorizontalAlignment="Left" Margin="3,0,0,0"/>
+              </Grid>
+              <ContentPresenter Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Pista" Property="Background" Value="#3D8BFD"/>
+                <Setter TargetName="Bola" Property="HorizontalAlignment" Value="Right"/>
+                <Setter TargetName="Bola" Property="Margin" Value="0,0,3,0"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.85"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <!-- Casilla (acciones que quitan/eliminan) -->
+    <Style x:Key="Casilla" TargetType="CheckBox">
+      <Setter Property="Foreground" Value="#E8EAED"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="CheckBox">
+            <Grid Background="Transparent"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+              <Border x:Name="Caja" Width="22" Height="22" CornerRadius="6" BorderThickness="2" BorderBrush="#5A6272" Background="#1A1D24" VerticalAlignment="Center">
+                <TextBlock x:Name="Marca" Text="✓" FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+              </Border>
+              <ContentPresenter Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Caja" Property="Background" Value="#E5534B"/><Setter TargetName="Caja" Property="BorderBrush" Value="#E5534B"/>
+                <Setter TargetName="Marca" Property="Visibility" Value="Visible"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="CheckBox" BasedOn="{StaticResource Casilla}"/>
+
+    <!-- Botón ⓘ desplegable -->
+    <Style x:Key="BotonInfo" TargetType="ToggleButton">
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Border x:Name="F" Width="22" Height="22" CornerRadius="11" Background="Transparent">
+              <TextBlock x:Name="T" Text="ⓘ" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9AA4B2"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True"><Setter TargetName="F" Property="Background" Value="#FF8C00"/><Setter TargetName="T" Property="Foreground" Value="White"/></Trigger>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="F" Property="Opacity" Value="0.85"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- Iconos de trazo, indicador naranja y selección compacta. -->
+    <Style x:Key="ElementoNav" TargetType="ListBoxItem">
+      <Setter Property="Foreground" Value="#758091"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+       <Grid Margin="0,3"><Border x:Name="F" Background="Transparent" CornerRadius="6" Margin="7,0" Padding="0,10"><ContentPresenter/></Border><Border x:Name="Indicador" Width="3" Height="27" Background="#FF8C00" HorizontalAlignment="Left" Visibility="Collapsed"/></Grid>
+       <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="F" Property="Background" Value="#151B25"/></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="F" Property="Background" Value="#171E29"/><Setter Property="Foreground" Value="#FF9A24"/><Setter TargetName="Indicador" Property="Visibility" Value="Visible"/></Trigger></ControlTemplate.Triggers>
+      </ControlTemplate></Setter.Value></Setter>
+    </Style>
+    <Style x:Key="Chip" TargetType="ToggleButton">
+      <Setter Property="ContentTemplate"><Setter.Value><DataTemplate><TextBlock Text="{Binding}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}" FontSize="11"/></DataTemplate></Setter.Value></Setter>
+      <Setter Property="Foreground" Value="#99A3B2"/><Setter Property="Background" Value="#141A24"/><Setter Property="Cursor" Value="Hand"/><Setter Property="Margin" Value="0,0,7,7"/><Setter Property="Padding" Value="11,6"/><Setter Property="FontSize" Value="11"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton"><Border x:Name="F" Background="{TemplateBinding Background}" BorderBrush="#222A37" BorderThickness="1" CornerRadius="5" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsChecked" Value="True"><Setter TargetName="F" Property="Background" Value="#302117"/><Setter TargetName="F" Property="BorderBrush" Value="#A9651A"/><Setter Property="Foreground" Value="#FFA537"/></Trigger><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="F" Property="BorderBrush" Value="#7E622F"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+    </Style>
+    <Style x:Key="Categoria" TargetType="ToggleButton" BasedOn="{StaticResource Chip}">
+      <Setter Property="Padding" Value="13,9"/><Setter Property="FontSize" Value="12"/>
+      <Setter Property="ContentTemplate"><Setter.Value><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" FontWeight="SemiBold" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}" FontSize="12"/></DataTemplate></Setter.Value></Setter>
+    </Style>
+    <Style TargetType="ToolTip"><Setter Property="Background" Value="#19212D"/><Setter Property="Foreground" Value="#D5DCE6"/><Setter Property="BorderBrush" Value="#394355"/><Setter Property="Padding" Value="14"/><Setter Property="MaxWidth" Value="530"/></Style>
+    <Style TargetType="TextBox">
+      <Setter Property="Background" Value="#101216"/><Setter Property="Foreground" Value="#E8EAED"/>
+      <Setter Property="BorderBrush" Value="#252C38"/><Setter Property="Padding" Value="6,4"/><Setter Property="CaretBrush" Value="White"/>
+    </Style>
+    <Style TargetType="DataGrid">
+      <Setter Property="Background" Value="#1A1D24"/><Setter Property="Foreground" Value="#E8EAED"/>
+      <Setter Property="RowBackground" Value="#12161E"/><Setter Property="AlternatingRowBackground" Value="#222731"/>
+      <Setter Property="BorderBrush" Value="#252C38"/><Setter Property="GridLinesVisibility" Value="None"/>
+      <Setter Property="HeadersVisibility" Value="Column"/><Setter Property="MinRowHeight" Value="32"/>
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+      <Setter Property="Background" Value="#262B35"/><Setter Property="Foreground" Value="#9AA4B2"/>
+      <Setter Property="Padding" Value="8,6"/><Setter Property="FontWeight" Value="SemiBold"/><Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="DataGridCell">
+      <Setter Property="BorderThickness" Value="0"/>
+      <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="#53351D"/><Setter Property="Foreground" Value="White"/></Trigger></Style.Triggers>
+    </Style>
+    <Style TargetType="ProgressBar">
+      <Setter Property="Foreground" Value="#FF8C00"/><Setter Property="Background" Value="#262B35"/><Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <!-- Pistas, pulgares y esquina siempre oscuros, también en TextBox y DataGrid. -->
+    <Style x:Key="PulgarOscuro" TargetType="Thumb"><Setter Property="Background" Value="#303C50"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Thumb"><Border Background="{TemplateBinding Background}" CornerRadius="4" Margin="2" MinWidth="6" MinHeight="6"/></ControlTemplate></Setter.Value></Setter><Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#53647D"/></Trigger><Trigger Property="IsDragging" Value="True"><Setter Property="Background" Value="#99652D"/></Trigger></Style.Triggers></Style>
+    <Style x:Key="PaginaScrollOscura" TargetType="RepeatButton"><Setter Property="Focusable" Value="False"/><Setter Property="IsTabStop" Value="False"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate></Setter.Value></Setter></Style>
+    <Style TargetType="ScrollBar">
+      <Setter Property="Background" Value="#0B0E14"/><Setter Property="Width" Value="12"/><Setter Property="MinWidth" Value="0"/><Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollBar"><Border Background="{TemplateBinding Background}"><Track x:Name="PART_Track" Orientation="Vertical" IsDirectionReversed="True" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}"><Track.DecreaseRepeatButton><RepeatButton Style="{StaticResource PaginaScrollOscura}" Command="{x:Static ScrollBar.PageUpCommand}"/></Track.DecreaseRepeatButton><Track.Thumb><Thumb Style="{StaticResource PulgarOscuro}"/></Track.Thumb><Track.IncreaseRepeatButton><RepeatButton Style="{StaticResource PaginaScrollOscura}" Command="{x:Static ScrollBar.PageDownCommand}"/></Track.IncreaseRepeatButton></Track></Border></ControlTemplate></Setter.Value></Setter>
+      <Style.Triggers><Trigger Property="Orientation" Value="Horizontal"><Setter Property="Width" Value="Auto"/><Setter Property="Height" Value="12"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollBar"><Border Background="{TemplateBinding Background}"><Track x:Name="PART_Track" Orientation="Horizontal" IsDirectionReversed="False" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}"><Track.DecreaseRepeatButton><RepeatButton Style="{StaticResource PaginaScrollOscura}" Command="{x:Static ScrollBar.PageLeftCommand}"/></Track.DecreaseRepeatButton><Track.Thumb><Thumb Style="{StaticResource PulgarOscuro}"/></Track.Thumb><Track.IncreaseRepeatButton><RepeatButton Style="{StaticResource PaginaScrollOscura}" Command="{x:Static ScrollBar.PageRightCommand}"/></Track.IncreaseRepeatButton></Track></Border></ControlTemplate></Setter.Value></Setter></Trigger></Style.Triggers>
+    </Style>
+    <Style TargetType="ScrollViewer"><Setter Property="VerticalScrollBarVisibility" Value="Auto"/><Setter Property="Background" Value="#0B0E14"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ScrollViewer"><Grid Background="{TemplateBinding Background}"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions><ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" CanContentScroll="{TemplateBinding CanContentScroll}" Margin="{TemplateBinding Padding}"/><ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Orientation="Vertical" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Value="{TemplateBinding VerticalOffset}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/><ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Row="1" Orientation="Horizontal" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Value="{TemplateBinding HorizontalOffset}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/><Border Grid.Row="1" Grid.Column="1" Background="#0B0E14"/></Grid></ControlTemplate></Setter.Value></Setter>
+    </Style>
+  
+    <Style x:Key="Card" TargetType="Border"><Setter Property="Background" Value="#12161E"/><Setter Property="BorderBrush" Value="#202734"/><Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="8"/><Setter Property="Padding" Value="18"/><Setter Property="Margin" Value="0,0,0,12"/></Style>
+    <Style x:Key="Muted" TargetType="TextBlock"><Setter Property="Foreground" Value="#929CAB"/><Setter Property="TextWrapping" Value="Wrap"/></Style>
+    <Style TargetType="ComboBox"><Setter Property="Margin" Value="4"/><Setter Property="Padding" Value="8"/><Setter Property="MinWidth" Value="160"/></Style>
+    <Style TargetType="Expander"><Setter Property="Foreground" Value="#AAB3C0"/></Style>
+  </Window.Resources>
+
+  
+<Grid x:Name="MarcoRaiz" Background="#0B0E14">
+ <Grid.RowDefinitions><RowDefinition Height="40"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+ <Grid.ColumnDefinitions><ColumnDefinition Width="96"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+ <CheckBox x:Name="ChkAvanzados" Visibility="Collapsed" IsChecked="False"/>
+ <Border x:Name="BarraTitulo" Grid.ColumnSpan="2" Background="#0B0E14" BorderBrush="#202734" BorderThickness="0,0,0,1" CacheMode="BitmapCache"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+  <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False"><Image x:Name="ImgLogoTitulo" Width="22" Height="22" Margin="0,0,10,0" RenderOptions.BitmapScalingMode="HighQuality"/><TextBlock Text="OptimiZation · Versión 2" FontSize="12" Foreground="#C5CEDA" VerticalAlignment="Center" TextWrapping="NoWrap"/></StackPanel>
+  <StackPanel Grid.Column="1" Orientation="Horizontal"><Button x:Name="BtnMinimizar" Content="&#xE921;" ToolTip="Minimizar" AutomationProperties.Name="Minimizar" Style="{StaticResource BotonVentana}"/><Button x:Name="BtnMaximizar" Content="&#xE922;" ToolTip="Maximizar" AutomationProperties.Name="Maximizar" Style="{StaticResource BotonVentana}"/><Button x:Name="BtnCerrarVentana" Content="&#xE8BB;" ToolTip="Cerrar" AutomationProperties.Name="Cerrar" Style="{StaticResource BotonCerrarVentana}"/></StackPanel>
+ </Grid></Border>
+ <Border Grid.Row="1" Background="#0B1017" BorderBrush="#202734" BorderThickness="0,0,1,0"><DockPanel>
+   <Button x:Name="BtnInicioLogo" DockPanel.Dock="Top" Margin="12,12,12,14" Padding="7" ContentTemplate="{x:Null}" Background="Transparent" ToolTip="Inicio" AutomationProperties.Name="Inicio" Cursor="Hand"><Image x:Name="ImgLogo" Width="38" Height="38" RenderOptions.BitmapScalingMode="HighQuality"/></Button>
+   <StackPanel x:Name="PieSidebar" DockPanel.Dock="Bottom" Margin="10,8,4,10" HorizontalAlignment="Left"><TextBlock x:Name="TxtSistema" FontSize="10" Foreground="#6E7887"/><TextBlock x:Name="MarcaAutor" Text="by YuzVax" FontSize="10" Foreground="#BE854C" Margin="0,7,0,0" HorizontalAlignment="Left"/></StackPanel>
+   <ListBox x:Name="Nav" Background="Transparent" BorderThickness="0" Padding="0" ItemContainerStyle="{StaticResource ElementoNav}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+ </DockPanel></Border>
+ <Grid Grid.Row="1" Grid.Column="1" Margin="24,16,18,12">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel x:Name="CabeceraPagina" Grid.Row="0" Margin="0,0,0,17">
+    <DockPanel x:Name="BarraModoOptimizar" Visibility="Collapsed" Margin="0,0,0,0" VerticalAlignment="Top"><Button x:Name="BtnVolverModos" DockPanel.Dock="Left" Content="← Elegir modo" Margin="0,0,14,0"/><Grid x:Name="BuscadorAjustes" DockPanel.Dock="Right" Visibility="Collapsed" Margin="12,0,0,0"><TextBox x:Name="TxtBuscarAjuste" Width="205" Padding="12,8" ToolTip="Buscar ajustes por nombre o explicación"/><TextBlock Text="⌕ Buscar ajustes" Foreground="#657081" Margin="12,8" IsHitTestVisible="False"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Text, ElementName=TxtBuscarAjuste}" Value=""><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></Grid><TextBlock x:Name="TxtModoOptimizar" Foreground="#FFAA42" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap"/></DockPanel>
+   <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <StackPanel Grid.Column="1"><TextBlock x:Name="TxtTitulo" Text="Inicio" FontSize="23" FontWeight="SemiBold"/><TextBlock x:Name="TxtDescripcion" Style="{StaticResource Muted}" FontSize="11" Margin="0,5,0,0"/>
+    <TextBlock x:Name="TxtDetectando" Foreground="#BBA075" FontSize="10" Visibility="Collapsed" Margin="0,4,0,0"/><ProgressBar x:Name="ProgresoDeteccion" Height="2" Maximum="100" Visibility="Collapsed" Margin="0,4,0,0"/></StackPanel>
+   </Grid>
+  </StackPanel>
+  <Grid Grid.Row="2" x:Name="Paginas">
+   <ScrollViewer x:Name="PagResumen" Visibility="Collapsed" HorizontalScrollBarVisibility="Disabled"><StackPanel Margin="0,0,0,8">
+     <Border x:Name="HeroCard" Style="{StaticResource Card}" Margin="0,0,0,12"><Grid x:Name="HeroInterior"><Grid.ColumnDefinitions><ColumnDefinition Width="164"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <Grid x:Name="HeroAnillo" Width="152" Height="152" Margin="0,0,12,0" VerticalAlignment="Center"><Ellipse Stroke="#1C2430" StrokeThickness="9" Margin="8"/><Path x:Name="AnilloProgreso" Stroke="#FF941C" StrokeThickness="9" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/><StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"><TextBlock x:Name="TxtOptimizado" Text="—" FontSize="30" FontWeight="SemiBold" HorizontalAlignment="Center"/><TextBlock Text="OPTIMIZADO" FontSize="9" Foreground="#929CAB" HorizontalAlignment="Center"/></StackPanel></Grid>
+      <StackPanel x:Name="HeroTexto" Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="Tu Windows, de un vistazo" FontSize="21" FontWeight="SemiBold"/><TextBlock Text="Ve a Optimizar para elegir cambios o a Acelerar para limpiar Windows. Tú decides antes de aplicar." Style="{StaticResource Muted}" FontSize="12" Margin="0,8,0,12"/><TextBlock x:Name="TxtHomePendientes" Foreground="#FFAA42" FontSize="11"/><TextBlock Text="Progreso por objetivos: 90 % con el perfil no agresivo más completo y 100 % con Máximo verificado; no mide velocidad ni FPS." FontSize="9" Foreground="#707B8B" Margin="0,8,0,0"/></StackPanel>
+     </Grid></Border>
+    <UniformGrid x:Name="HomeMetricas" Columns="4">
+     <Border Style="{StaticResource Card}" Padding="16,13" Margin="4,0,4,12"><StackPanel><TextBlock Text="YA APLICADOS" FontSize="9" Style="{StaticResource Muted}"/><TextBlock x:Name="MetricaActivos" Text="—" FontSize="24" Margin="0,6,0,0"/></StackPanel></Border>
+     <Border Style="{StaticResource Card}" Padding="16,13" Margin="4,0,4,12"><StackPanel><TextBlock Text="RECOMENDADOS RESTANTES" FontSize="9" Style="{StaticResource Muted}"/><TextBlock x:Name="MetricaPendientes" Text="—" Foreground="#FF941C" FontSize="24" Margin="0,6,0,0"/></StackPanel></Border>
+     <Border Style="{StaticResource Card}" Padding="16,13" Margin="4,0,4,12"><StackPanel><TextBlock Text="PROCESOS" FontSize="9" Style="{StaticResource Muted}"/><TextBlock x:Name="MetricaProcesos" Text="—" FontSize="24" Margin="0,6,0,0"/></StackPanel></Border>
+     <Border Style="{StaticResource Card}" Padding="16,13" Margin="4,0,4,12"><StackPanel><TextBlock Text="AJUSTES TOTALES" FontSize="9" Style="{StaticResource Muted}"/><TextBlock x:Name="MetricaTotal" Text="—" FontSize="24" Margin="0,6,0,0"/></StackPanel></Border>
+    </UniformGrid>
+    <Border x:Name="ResumenCategorias" Style="{StaticResource Card}"><StackPanel><TextBlock Text="Estado por categoría" FontSize="17" FontWeight="SemiBold"/><WrapPanel x:Name="PanelResumenGrupos"/></StackPanel></Border>
+   </StackPanel></ScrollViewer>
+   <Grid x:Name="PagOptimizar" Visibility="Collapsed">
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+
+    <ScrollViewer x:Name="PanelElegirModo" Grid.Row="1" HorizontalScrollBarVisibility="Disabled"><StackPanel>
+     <TextBlock Text="¿Cómo quieres Optimizar?" FontSize="26" FontWeight="SemiBold" Margin="5,10,5,8"/>
+     <TextBlock Text="Elige cómo trabajar. Los cambios siempre piden confirmación antes de aplicarse." Style="{StaticResource Muted}" Margin="5,0,5,22"/>
+     <UniformGrid x:Name="ModosOptimizar" Columns="3">
+      <Button x:Name="BtnModoRecurrentes" Tag="manual-recurrentes" ContentTemplate="{x:Null}" HorizontalContentAlignment="Stretch" Padding="20" Margin="5" MinHeight="158"><StackPanel><TextBlock Text="Manuales Recurrentes" FontSize="22" FontWeight="SemiBold" Foreground="#FFAA42" TextWrapping="Wrap"/><TextBlock Text="96 ajustes con interruptores: se activan o desactivan y mantienen su estado hasta que lo cambies." Style="{StaticResource Muted}" FontSize="13" Margin="0,12,0,0"/></StackPanel></Button>
+      <Button x:Name="BtnModoUnicas" Tag="manual-unicas" ContentTemplate="{x:Null}" HorizontalContentAlignment="Stretch" Padding="20" Margin="5" MinHeight="158"><StackPanel><TextBlock Text="Manuales Únicas" FontSize="22" FontWeight="SemiBold" Foreground="#FFAA42" TextWrapping="Wrap"/><TextBlock Text="33 acciones de una sola vez por ejecución: limpiar, reparar o quitar aplicaciones. Puedes volver a ejecutarlas cuando lo necesites." Style="{StaticResource Muted}" FontSize="13" Margin="0,12,0,0"/></StackPanel></Button>
+      <Button x:Name="BtnModoPreconfiguradas" ContentTemplate="{x:Null}" HorizontalContentAlignment="Stretch" Padding="20" Margin="5" MinHeight="158"><StackPanel><TextBlock Text="Preconfiguradas" FontSize="22" FontWeight="SemiBold" Foreground="#FFAA42" TextWrapping="Wrap"/><TextBlock Text="Opciones personalizadas ya creadas según las necesidades del usuario. La opción fácil: eliges un perfil, confirmas y se aplica automáticamente." Style="{StaticResource Muted}" FontSize="13" Margin="0,12,0,0"/></StackPanel></Button>
+     </UniformGrid>
+    </StackPanel></ScrollViewer>
+    <ScrollViewer x:Name="PanelPreconfiguradas" Grid.Row="1" Visibility="Collapsed" HorizontalScrollBarVisibility="Disabled"><StackPanel><TextBlock Text="Un perfil para cada uso" FontSize="23" FontWeight="SemiBold" Margin="5,0,5,10"/><TextBlock Text="El perfil sustituye tu selección pendiente, no deshace los ajustes activos. Al elegirlo verás la confirmación para aplicar; después se crea el punto y se ejecuta automáticamente, sin entrar en Manual." Style="{StaticResource Muted}" Margin="5,0,5,16"/><UniformGrid x:Name="TarjetasPreset" Columns="2"><Button x:Name="BtnPresetJuegos" ContentTemplate="{x:Null}" HorizontalContentAlignment="Stretch" Padding="22" Margin="5" MinHeight="158"><StackPanel><TextBlock Text="Juegos" FontSize="22" FontWeight="SemiBold" Foreground="#FFAA42" TextWrapping="Wrap"/><TextBlock Text="Modo juego y ajustes para jugar. Sin opciones agresivas. No garantiza más FPS." Style="{StaticResource Muted}" FontSize="12" Margin="0,12,0,0"/></StackPanel></Button><Button x:Name="BtnPresetAlto" ContentTemplate="{x:Null}" HorizontalContentAlignment="Stretch" Padding="22" Margin="5" MinHeight="158"><StackPanel><TextBlock Text="Alto Rendimiento" FontSize="22" FontWeight="SemiBold" Foreground="#FFAA42" TextWrapping="Wrap"/><TextBlock Text="Plan Alto rendimiento de Windows y ajustes seguros o moderados. Puede gastar más batería. No es overclock." Style="{StaticResource Muted}" FontSize="12" Margin="0,12,0,0"/></StackPanel></Button><Button x:Name="BtnPresetMaximo" ContentTemplate="{x:Null}" HorizontalContentAlignment="Stretch" Padding="22" Margin="5" MinHeight="158"><StackPanel><TextBlock Text="Máximo rendimiento" FontSize="22" FontWeight="SemiBold" Foreground="#FF8B80" TextWrapping="Wrap"/><TextBlock Text="⚠ Riesgo: incluye cambios agresivos que pueden quitar protecciones y funciones. Pide un aviso extra." Style="{StaticResource Muted}" FontSize="12" Margin="0,12,0,0"/></StackPanel></Button><Button x:Name="BtnPresetRecomendadas" ContentTemplate="{x:Null}" HorizontalContentAlignment="Stretch" Padding="22" Margin="5" MinHeight="158"><StackPanel><TextBlock Text="Recomendadas" FontSize="22" FontWeight="SemiBold" Foreground="#FFAA42" TextWrapping="Wrap"/><TextBlock Text="Solo ajustes de nivel Seguro. Pide confirmación antes de crear el punto y aplicar el perfil." Style="{StaticResource Muted}" FontSize="12" Margin="0,12,0,0"/></StackPanel></Button></UniformGrid></StackPanel></ScrollViewer>
+    <Grid x:Name="PanelManual" Grid.Row="1" Visibility="Collapsed"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <StackPanel x:Name="PanelFiltros" Grid.Row="0" Margin="0,0,0,9">
+   <TextBlock x:Name="TxtConteoOptimizar" Text="Pulsa ⓘ en cada ajuste para ver qué hace y qué toca en Windows." FontSize="15" Foreground="#BBC6D6" TextWrapping="Wrap" Margin="0,0,0,12"/>
+   <WrapPanel x:Name="PanelCategorias" Margin="0,0,0,5"/>
+   <TextBlock x:Name="TxtCategoriaActual" FontSize="21" FontWeight="SemiBold" Foreground="#FFAA42" Margin="2,6,0,10" TextWrapping="Wrap"/>
+   <WrapPanel x:Name="PanelChips"/>
+   <TextBlock x:Name="TxtCantidadAjustes" FontSize="10" Foreground="#7F8B9C" TextWrapping="Wrap" Margin="0,0,0,4"/>
+  </StackPanel>
+    <!-- Sin ScrollViewer exterior: viewport finito, virtualización real por filas. Las tarjetas conservan su estado. -->
+    <ListBox x:Name="PanelAjustes" Grid.Row="1" Background="#0B0E14" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel" VirtualizingPanel.CacheLength="1" IsTabStop="False">
+     <ListBox.Template><ControlTemplate TargetType="ListBox"><Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"><ScrollViewer x:Name="PART_ScrollViewer" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"><ItemsPresenter/></ScrollViewer></Border></ControlTemplate></ListBox.Template>
+     <ListBox.ItemsPanel><ItemsPanelTemplate><VirtualizingStackPanel/></ItemsPanelTemplate></ListBox.ItemsPanel>
+     <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="0"/><Setter Property="Margin" Value="0"/><Setter Property="Focusable" Value="False"/><Setter Property="IsTabStop" Value="False"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem"><ContentPresenter HorizontalAlignment="Stretch"/></ControlTemplate></Setter.Value></Setter></Style></ListBox.ItemContainerStyle>
+    </ListBox>
+    </Grid>
+   </Grid>
+   <DockPanel x:Name="PagHost" Visibility="Collapsed"><WrapPanel DockPanel.Dock="Top" Margin="-4,0,0,10"><Button x:Name="BtnHostActualizar" Content="↻ Volver a escanear" FontSize="11"/><Button x:Name="BtnHostCopiar" Content="Copiar datos" FontSize="11"/><Button x:Name="BtnHostExportar" Content="Exportar a .txt" FontSize="11"/></WrapPanel><ScrollViewer HorizontalScrollBarVisibility="Disabled"><StackPanel><UniformGrid x:Name="PanelHost" Columns="3"/><Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Comprobación del equipo" FontSize="15" FontWeight="SemiBold"/><StackPanel x:Name="PanelSalud" Margin="0,10,0,0"/></StackPanel></Border></StackPanel></ScrollViewer></DockPanel>
+   <ScrollViewer x:Name="PagBoost" Visibility="Collapsed" HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Left"><StackPanel x:Name="ColumnaBoost" MaxWidth="900" HorizontalAlignment="Left">
+    <Border Style="{StaticResource Card}"><StackPanel><Button x:Name="BtnBoostLimpiar" Content="Limpieza Windows" Style="{StaticResource BotonAcento}" FontSize="16" Padding="20,12" HorizontalAlignment="Left"/><TextBlock Text="Port del script: cachés de Windows Update y Delivery Optimization, temporales, Papelera, DNS y componentes antiguos con DISM. Muestra GB antes y después. No reinicia Explorer." Style="{StaticResource Muted}" FontSize="12" Margin="4,10,4,0"/></StackPanel></Border>
+    <Border Style="{StaticResource Card}"><StackPanel><Button x:Name="BtnBoostExplorer" Content="Reiniciar Explorer" Style="{StaticResource BotonAcento}" FontSize="16" Padding="20,12" HorizontalAlignment="Left"/><TextBlock Text="Solo reinicia el escritorio y la barra. Guarda el trabajo y termina las copias de archivos antes." Style="{StaticResource Muted}" FontSize="12" Margin="4,10,4,0"/></StackPanel></Border>
+    <Border Style="{StaticResource Card}"><StackPanel><Button x:Name="BtnBoostTemporales" Content="Limpiar temporales" Style="{StaticResource BotonAcento}" FontSize="16" Padding="20,12" HorizontalAlignment="Left"/><TextBlock Text="Solo %TEMP% y C:\Windows\Temp. Conserva elementos en uso, enlaces y archivos de esta sesión." Style="{StaticResource Muted}" FontSize="12" Margin="4,10,4,0"/></StackPanel></Border>
+    <Border Style="{StaticResource Card}"><StackPanel><Button x:Name="BtnBoostDns" Content="Vaciar caché DNS" Style="{StaticResource BotonAcento}" FontSize="16" Padding="20,12" HorizontalAlignment="Left"/><TextBlock Text="Solo vacía la caché DNS local. No modifica los servidores DNS ni otros archivos." Style="{StaticResource Muted}" FontSize="12" Margin="4,10,4,0"/></StackPanel></Border>
+    <TextBlock x:Name="TxtBoostResultado" Text="Cada acción es independiente y pide permiso antes de empezar. El borrado no se puede deshacer." Style="{StaticResource Muted}" Margin="4,8,4,12"/>
+   </StackPanel></ScrollViewer>
+   <ScrollViewer x:Name="PagCopias" Visibility="Collapsed" HorizontalScrollBarVisibility="Disabled"><StackPanel>
+    <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Un paso atrás, si algo no va bien" FontSize="22" FontWeight="SemiBold"/><TextBlock Text="El punto de restauración lo guarda Windows. La copia del registro la guarda esta app al aplicar cambios. Ninguna sustituye una copia de tus fotos y documentos." Style="{StaticResource Muted}" Margin="0,10,0,12"/><WrapPanel><Button x:Name="BtnCrearPunto" Content="Crear punto de restauración" Style="{StaticResource BotonAcento}"/></WrapPanel><TextBlock x:Name="TxtCopiasResultado" Text="Aún no se ha creado una copia en esta sesión." Foreground="#FFB457" Margin="4,12,0,0"/></StackPanel></Border>
+    <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Puntos de restauración de Windows" FontSize="17" FontWeight="SemiBold"/><WrapPanel Margin="0,10,0,10"><Button x:Name="BtnActualizarPuntos" Content="↻ Actualizar lista"/><Button x:Name="BtnEliminarPuntos" Content="Eliminar seleccionado" Style="{StaticResource BotonPeligro}" ToolTip="Borra solo el punto seleccionado, tras una confirmación irreversible."/><Button x:Name="BtnUsarRestauracion" Content="Usar restauración seleccionada" Style="{StaticResource BotonAcento}"/></WrapPanel><TextBlock x:Name="TxtPuntosEstado" Style="{StaticResource Muted}"/><DataGrid x:Name="GridPuntos" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" MinHeight="110" MaxHeight="240" Margin="0,8,0,0"><DataGrid.Columns><DataGridTextColumn Header="Número" Binding="{Binding Numero}" Width="75"/><DataGridTextColumn Header="Fecha (hora local)" Binding="{Binding Fecha}" Width="160"/><DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*" MinWidth="180"/></DataGrid.Columns></DataGrid><TextBlock Text="Selecciona un solo punto. Eliminar seleccionado pide confirmación y no se puede deshacer. Usar restauración seleccionada pide permiso e inicia la restauración de ese punto. Guarda tu trabajo: tendrás que reiniciar Windows para completarla; esta app no reinicia automáticamente." Style="{StaticResource Muted}" Margin="0,10,0,0"/></StackPanel></Border>
+    <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Conservar tus copias" FontSize="17" FontWeight="SemiBold"/><TextBlock x:Name="TxtRutaCopias" Style="{StaticResource Muted}" Margin="0,8,0,12"/><TextBlock Text="Al confirmar «Cerrar y limpiar archivos» se borran las copias de ESTA sesión y su registro. Los puntos de restauración de Windows y las copias que exportes se conservan." Foreground="#FFB457"/><Button x:Name="BtnExportarCopias" Content="Guardar copias en…" HorizontalAlignment="Left" Margin="0,12,0,0"/></StackPanel></Border>
+   </StackPanel></ScrollViewer>
+   <ScrollViewer x:Name="PagAjustes" Visibility="Collapsed" HorizontalScrollBarVisibility="Disabled"><StackPanel MaxWidth="920" HorizontalAlignment="Left">
+    <Border Style="{StaticResource Card}"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions><Grid Grid.Row="0" Margin="0,9"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Margin="0,0,18,0"><TextBlock Text="Crear punto antes de aplicar" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="Siempre se intenta. Si falla, se detiene y se pide permiso para continuar." FontSize="10" Foreground="#7F8B9C" Margin="0,4,0,0"/></StackPanel><CheckBox x:Name="ChkPunto" AutomationProperties.Name="Crear punto antes de aplicar" Grid.Column="1" Style="{StaticResource Interruptor}" VerticalAlignment="Center" IsChecked="True" IsEnabled="False" ToolTip="Protección obligatoria: no se desactiva desde Ajustes."/></Grid><Grid Grid.Row="1" Margin="0,9"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Margin="0,0,18,0"><TextBlock Text="Confirmar riesgos" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="Se pide confirmación antes de aplicar, eliminar o cerrar aplicaciones." FontSize="10" Foreground="#7F8B9C" Margin="0,4,0,0"/></StackPanel><CheckBox x:Name="ChkRiesgos" AutomationProperties.Name="Confirmar riesgos" Grid.Column="1" Style="{StaticResource Interruptor}" VerticalAlignment="Center" IsChecked="True" IsEnabled="False" ToolTip="Protección obligatoria: no se desactiva desde Ajustes."/></Grid></Grid></Border>
+    <Border Style="{StaticResource Card}"><StackPanel>
+     <TextBlock Text="Acerca de OptimiZation · by YuzVax" FontSize="17" FontWeight="SemiBold" Foreground="#FFAA42"/>
+     <TextBlock Text="Versión 2 · 129 ajustes · Windows 10 y 11" Style="{StaticResource Muted}" FontSize="12" Margin="0,10,0,14"/>
+     <TextBlock Text="Copyright © 2026 YuzVax. Licencia de uso no comercial." FontSize="12" FontWeight="SemiBold"/>
+     <TextBlock Text="Se permite el uso personal y educativo sin fines comerciales, las copias de respaldo, compartir gratuitamente copias sin modificar y la modificación para uso personal. Se prohíben la venta comercial, la sublicencia o relicenciamiento y la redistribución con fines de lucro sin permiso previo por escrito de YuzVax. Todos los demás derechos quedan reservados. Consulta LICENSE para los términos completos. Publicar el código en GitHub no concede derechos comerciales." Style="{StaticResource Muted}" FontSize="12" Margin="0,8,0,12"/>
+     <TextBlock Text="Se ofrece tal cual, sin garantía. Tú decides los cambios y eres responsable de su uso en tu sistema. Guarda tus documentos y copias antes de aplicar: la restauración no recupera todos los archivos. Deshacer usa valores habituales y no siempre tu configuración anterior exacta." Style="{StaticResource Muted}" FontSize="12" Margin="0,0,0,12"/>
+     <TextBlock Text="Cambia opciones de Windows; no hace overclock ni promete más FPS. El porcentaje representa cobertura de objetivos: 90 % con el perfil no Máximo más completo (Recomendadas) y 100 % con Máximo aplicado y verificado. No mide velocidad. No está afiliado a Microsoft; Windows es una marca comercial de Microsoft." Style="{StaticResource Muted}" FontSize="12" Margin="0,0,0,12"/>
+     <TextBlock Text="EXE sin firma digital: Windows puede mostrar un aviso. Al cerrar, puedes conservar tus copias antes de limpiar esta sesión. Construido en Linux; validación real de WPF y cambios del sistema en Windows pendiente." Foreground="#A9987A" FontSize="11"/>
+    </StackPanel></Border>
+   </StackPanel></ScrollViewer>
+        <DockPanel x:Name="PagInicio" Visibility="Collapsed">
+          <Border DockPanel.Dock="Top" Background="#2A1D1D" CornerRadius="8" Padding="10,6" Margin="0,0,0,8">
+            <TextBlock TextWrapping="Wrap" Foreground="#FFB4A9" Text="Las filas en ROJO son entradas huérfanas: su programa ya no existe (por ejemplo, lo desinstalaste pero siguió apareciendo en el inicio). 'Limpiar huérfanas' las elimina guardando antes una copia (.reg / .xml)."/>
+          </Border>
+          <TextBlock x:Name="TxtInicioEstado" DockPanel.Dock="Top" Foreground="#FFCA28" FontSize="12" Margin="2,0,0,6" Text="" TextWrapping="Wrap"/>
+          <WrapPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+            <Button x:Name="BtnInicioRefrescar" Content="↻ Actualizar"/>
+            <Button x:Name="BtnInicioDesactivar" Content="⏸ Desactivar"/>
+            <Button x:Name="BtnInicioActivar" Content="▶ Activar"/>
+            <Button x:Name="BtnInicioDesinstalar" Content=" Desinstalar de raíz" Style="{StaticResource BotonPeligro}"/>
+            <Button x:Name="BtnInicioHuerfanas" Content="🧹 Limpiar huérfanas" Background="#EF6C00"/>
+          </WrapPanel>
+          <DataGrid x:Name="GridInicio" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single">
+            <DataGrid.RowStyle>
+              <Style TargetType="DataGridRow">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Confianza}" Value="Huérfana"><Setter Property="Background" Value="#4A1F22"/><Setter Property="Foreground" Value="#FF8A80"/></DataTrigger>
+                  <DataTrigger Binding="{Binding Confianza}" Value="Desactivado"><Setter Property="Foreground" Value="#8A93A3"/></DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+              <DataGridTemplateColumn Header="✓" Width="40"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+                <CheckBox Style="{x:Null}" IsChecked="{Binding Seleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+              </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+              <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="True" Width="200"/>
+              <DataGridTextColumn Header="Estado" Binding="{Binding Confianza}" IsReadOnly="True" Width="100"/>
+              <DataGridTextColumn Header="Origen" Binding="{Binding Tipo}" IsReadOnly="True" Width="150"/>
+              <DataGridTextColumn Header="Comando" Binding="{Binding Ruta}" IsReadOnly="True" Width="*" MinWidth="160"/>
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+
+        <Grid x:Name="PagDesinstalador" Visibility="Collapsed">
+          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,6">
+            <TextBlock Text="🔍" VerticalAlignment="Center" FontSize="15" TextWrapping="Wrap"/>
+            <TextBox x:Name="TxtBuscarApp" Width="280" Margin="8,4"/>
+            <CheckBox x:Name="ChkAppx" VerticalAlignment="Center" Margin="12,0"><TextBlock Text="Incluir apps de la Tienda" TextWrapping="Wrap"/></CheckBox>
+            <Button x:Name="BtnRefrescarApps" Content="↻ Actualizar lista"/>
+          </WrapPanel>
+          <DataGrid x:Name="GridApps" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Programa" Binding="{Binding Nombre}" Width="*" MinWidth="160"/>
+              <DataGridTextColumn Header="Editor" Binding="{Binding Detalle}" Width="200"/>
+              <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="80"/>
+              <DataGridTextColumn Header="Ubicación" Binding="{Binding Ruta}" Width="260"/>
+            </DataGrid.Columns>
+          </DataGrid>
+          <WrapPanel Grid.Row="2" Orientation="Horizontal" Margin="0,6">
+            <Button x:Name="BtnDesinstalar" Content=" Desinstalar y eliminar rastros" Style="{StaticResource BotonPeligro}"/>
+            <Button x:Name="BtnSoloRestos" Content=" Eliminar rastros"/>
+            <TextBlock Text="Primero revisa la lista. Solo se marcan coincidencias de confianza alta." VerticalAlignment="Center" Foreground="#FFB74D" Margin="10,0" TextWrapping="Wrap"/>
+          </WrapPanel>
+          <DataGrid x:Name="GridRestos" Grid.Row="3" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.RowStyle>
+              <Style TargetType="DataGridRow">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Confianza}" Value="Alta"><Setter Property="Foreground" Value="#81C784"/></DataTrigger>
+                  <DataTrigger Binding="{Binding Confianza}" Value="Media"><Setter Property="Foreground" Value="#FFB74D"/></DataTrigger>
+                  <DataTrigger Binding="{Binding Confianza}" Value="Baja"><Setter Property="Foreground" Value="#E57373"/></DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+              <DataGridTemplateColumn Header="✓" Width="40"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+                <CheckBox Style="{x:Null}" IsChecked="{Binding Seleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+              </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+              <DataGridTextColumn Header="Confianza" Binding="{Binding Confianza}" IsReadOnly="True" Width="90"/>
+              <DataGridTextColumn Header="Puntos" Binding="{Binding Puntuacion}" IsReadOnly="True" Width="60"/>
+              <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" IsReadOnly="True" Width="110"/>
+              <DataGridTextColumn Header="Ruta" Binding="{Binding Ruta}" IsReadOnly="True" Width="*" MinWidth="160"/>
+              <DataGridTextColumn Header="Motivo" Binding="{Binding Detalle}" IsReadOnly="True" Width="220"/>
+            </DataGrid.Columns>
+          </DataGrid>
+          <WrapPanel Grid.Row="4" Orientation="Horizontal" Margin="0,6,0,0">
+            <Button x:Name="BtnEliminarRastros" Content=" Eliminar rastros marcados" Style="{StaticResource BotonPeligro}"/>
+            <TextBlock Text="Se borra la carpeta completa. Si no puede ir a la Papelera, el borrado será permanente." VerticalAlignment="Center" Foreground="#8A93A3" Margin="10,0" TextWrapping="Wrap"/>
+          </WrapPanel>
+        </Grid>
+        
+<Border x:Name="Banner" VerticalAlignment="Top" Panel.ZIndex="10" CornerRadius="10" Padding="16,14" Background="#E630251B" RenderOptions.ClearTypeHint="Enabled" Visibility="Collapsed"><DockPanel LastChildFill="True"><Button x:Name="BtnCerrarBanner" DockPanel.Dock="Right" Content="×" Background="Transparent" BorderThickness="0" FontSize="22" FontWeight="Bold" Foreground="#F5F7FA" MinWidth="44" MinHeight="40" Padding="10,0" Margin="14,0,0,0" VerticalAlignment="Center" Cursor="Hand" Focusable="False"/><TextBlock x:Name="TxtBanner" Style="{StaticResource TextoEmergente}" FontSize="14" TextWrapping="Wrap" VerticalAlignment="Center"/></DockPanel></Border>
+   <!-- La capa está limitada al viewport: nunca invade la navegación ni la barra inferior. -->
+   <Grid x:Name="AreaConfirmacion" Panel.ZIndex="11" ClipToBounds="True">
+   <Border x:Name="PanelConfirmar" HorizontalAlignment="Center" VerticalAlignment="Center" Width="740" MaxWidth="740" Margin="16,16,104,24" Panel.ZIndex="11" CornerRadius="12" Padding="28" Background="#1E2533" BorderBrush="#FF8C00" BorderThickness="1" RenderOptions.ClearTypeHint="Enabled" Visibility="Collapsed" MaxHeight="520">
+    <DockPanel>
+     <TextBlock x:Name="TxtConfirmarTitulo" Style="{StaticResource TituloEmergente}" DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,16"/>
+     <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,20,0,0"><Button x:Name="BtnCancelar" Content="Cancelar" Style="{StaticResource BotonEmergente}"/><Button x:Name="BtnConfirmar2" Content="Guardar copias en…" Style="{StaticResource BotonEmergente}" Visibility="Collapsed"/><Button x:Name="BtnConfirmar" Content="Confirmar" Style="{StaticResource BotonEmergenteAcento}"/></WrapPanel>
+     <!-- El ScrollViewer global era opaco/negro: aquí comparte el fondo sólido de la tarjeta. -->
+     <ScrollViewer Background="Transparent" HorizontalScrollBarVisibility="Disabled"><TextBlock x:Name="TxtConfirmar" Style="{StaticResource TextoEmergente}" TextWrapping="Wrap"/></ScrollViewer>
+    </DockPanel>
+   </Border>
+   </Grid>
+  </Grid>
+  <Border x:Name="PanelActividad" Visibility="Collapsed" Grid.Row="3" Background="#0B0E14" BorderBrush="#202734" BorderThickness="0,1,0,0" CornerRadius="6" Padding="12,7" Margin="0,8,0,0"><StackPanel><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="55"/></Grid.ColumnDefinitions><TextBlock x:Name="TxtEstado" Text="Listo."/><TextBlock x:Name="TxtPorcentaje" Visibility="Collapsed" Grid.Column="1" Text="0 %" Foreground="#FF8C00" HorizontalAlignment="Right"/></Grid><ProgressBar x:Name="Progreso" Height="3" Visibility="Collapsed" Minimum="0" Maximum="100" Margin="0,8,0,6"/><Expander x:Name="ExpRegistro" Header="Registro de actividad" IsExpanded="False"><TextBox x:Name="TxtLog" Height="110" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11"/></Expander></StackPanel></Border>
+  <Grid x:Name="PanelAplicar" Grid.Row="4" Margin="0,8,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions><TextBlock x:Name="TxtContador" Visibility="Collapsed" Text="Sin cambios pendientes" Style="{StaticResource Muted}" Margin="4,0,0,4"/><WrapPanel Grid.Row="1" HorizontalAlignment="Right"><Button x:Name="BtnEjecutar" Visibility="Collapsed" Content="Aplicar cambios" Style="{StaticResource BotonAcento}" Padding="24,9"/><Button x:Name="BtnSalir" Content="Salir"/></WrapPanel></Grid>
+ </Grid>
+ <Grid x:Name="ToastProgreso" Grid.Row="1" Grid.ColumnSpan="2" Panel.ZIndex="30" Visibility="Collapsed" Background="#AD05080E"><Border Width="560" MaxWidth="620" MaxHeight="420" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#1E2533" BorderBrush="#465268" BorderThickness="1" CornerRadius="12" Padding="28,24" Margin="24" RenderOptions.ClearTypeHint="Enabled"><StackPanel><TextBlock x:Name="TxtToastTitulo" Text="Creando punto de restauración" Style="{StaticResource TituloEmergente}"/><TextBlock x:Name="TxtToastDetalle" Text="Windows está creando el punto de restauración. Puede tardar unos minutos." Style="{StaticResource TextoEmergente}" Margin="0,12,0,20"/><ProgressBar x:Name="BarraToast" Height="6" IsIndeterminate="True"/></StackPanel></Border></Grid>
+</Grid></Window>
